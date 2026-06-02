@@ -22,4 +22,4 @@ ENV PYTHONUNBUFFERED=1
 
 # Run Gunicorn to serve the Flask application
 # Binding to 0.0.0.0:5000 with 4 worker processes
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:create_app()"]
+CMD ["gunicorn", "-w", "4", "--threads", "4", "-b", "0.0.0.0:5000", "app:create_app()"]

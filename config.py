@@ -21,3 +21,13 @@ class Config:
     
     # Swagger UI Configurations
     RESTX_MASK_SWAGGER = False
+
+    # Redis & Celery Configurations
+    REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+    CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', REDIS_URL)
+    CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', REDIS_URL)
+    
+    # Flask-Caching Configurations
+    CACHE_TYPE = 'RedisCache'
+    CACHE_REDIS_URL = REDIS_URL
+    CACHE_DEFAULT_TIMEOUT = 300 # 5 minutes default

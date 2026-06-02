@@ -2,12 +2,27 @@ from flask import Flask
 from flask_restx import Api
 from config import Config
 from db import close_session
+from extensions import cache, celery
 from api.inventory import api as inventory_ns
 
 def create_app():
     """Factory function to create and configure the Flask app."""
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    # Initialize Extensions
+    cache.init_app(app)
+    
+    # Configure Celery
+    celery.conf.update(app.config)
+    
+    # TaskBase for context
+    class ContextTask(celery.Task):
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    celery.Task = ContextTask
 
     # Initialize Flask-RESTX
     api = Api(
