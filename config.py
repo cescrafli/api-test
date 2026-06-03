@@ -15,6 +15,9 @@ class Config:
     DB_PASSWORD = os.environ.get('DB_PASSWORD', 'pass')
     DB_NAME = os.environ.get('DB_NAME', 'db')
     
+    # Custom Application Configurations
+    MAX_CAPACITY = float(os.environ.get('MAX_CAPACITY', 2000))
+    
     # Construct SQLAlchemy Database URI (using PyMySQL for MySQL)
     SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False

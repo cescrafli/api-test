@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask import request
+from flask import request, current_app
 from sqlalchemy import text
 from db import get_session
 from extensions import cache, celery
@@ -41,9 +41,6 @@ def process_bulk_upload(payload):
         # We assume payload is a list of dicts matching the fields
         session.execute(query, payload)
         session.commit()
-        
-        # Invalidate cache after bulk upload
-        cache.clear()
         
     except Exception as e:
         session.rollback()
@@ -150,8 +147,8 @@ class OperationalMetrics(Resource):
             result = session.execute(text(base_query), params).fetchall()
             
             response_data = []
-            # Assume an arbitrary MAX_CAPACITY for occupancy percentage
-            MAX_CAPACITY = 2000.0 
+            # Dynamic MAX_CAPACITY from config
+            MAX_CAPACITY = current_app.config['MAX_CAPACITY'] 
 
             for row in result:
                 row_dict = dict(row._mapping)

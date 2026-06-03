@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS inventory_master (
     GR_Number VARCHAR(50) NOT NULL,
     StorageBin VARCHAR(50),
     MaterialCode VARCHAR(50),
-    Quantity FLOAT
+    Quantity DECIMAL(10,2)
 );
 
 -- Index for optimizing metrics query by StorageBin prefix

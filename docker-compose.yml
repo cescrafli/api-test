@@ -20,7 +20,7 @@ services:
 
   worker:
     build: .
-    command: celery -A app.celery_app worker --loglevel=info
+    command: celery -A celery_worker.celery worker --loglevel=info
     environment:
       - DB_HOST=db
       - DB_USER=root
